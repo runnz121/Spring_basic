@@ -3,9 +3,11 @@ package Spring.SpringCRUD.member;
 public class MemberServiceImpl implements MemberService { //memberservice 구현체
 
     //가입 조회를 위한 MemberRepository interface 선언 = 해당 인터페이스의 구현객체를 선언(실제 조회를 위해)
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository; //인터페이스만 존재
 
-
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public void join(Member member) {

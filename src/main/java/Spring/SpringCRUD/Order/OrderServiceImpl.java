@@ -11,14 +11,20 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+
 
     //이 코드로 인해 추상클래스와 구현체클래스 모두 의존하고 있음을 알 수 있다.  >>DIP 위반반
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy(); //인터페이스dis에서 Fix 구현체를 불러와서 이를 discountpolicy 에 넣음
     //private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); //새로운 RateDiscountpolicy 적용
 
-    private DiscountPolicy discountPolicy; //인터페이스에만 의존하는 코드로 변경 그러나 이렇게 되면 discountpolicy 에 아무런 값이 할당되어있지 않아 nullpointexception error 발생 >>page 27
+    private final MemberRepository memberRepository; //인터페이스만 의존
+    //인터페이스에만 의존하는 코드로 변경 그러나 이렇게 되면 discountpolicy 에 아무런 값이 할당되어있지 않아 nullpointexception error 발생 >>page 27
+    private final DiscountPolicy discountPolicy; //인터페이스만 의존
 
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) { //final로 선언이 되었기 때문에(위의 2코드) 생성자가 필요하다.
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     //OrderService 상속
     @Override

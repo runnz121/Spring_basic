@@ -7,7 +7,10 @@ import Spring.SpringCRUD.member.MemberServiceImpl;
 
 public class MemberApp {
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
+
+        //AppConfig를 선언하여 해당 객체를 주입
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService(); //appconfig로 인해 memverservice 인터페이스 호출(여기에는 memberserviceimpl이 있음)
         Member member = new Member(1L, "memberA", Grade.VIP); //해당 멤버를 저장
         memberService.join(member);
 
