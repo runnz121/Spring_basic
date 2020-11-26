@@ -2,23 +2,48 @@ package Spring.SpringCRUD;
 
 import Spring.SpringCRUD.Order.OrderService;
 import Spring.SpringCRUD.Order.OrderServiceImpl;
+import Spring.SpringCRUD.discount.DiscountPolicy;
 import Spring.SpringCRUD.discount.FixDiscountPolicy;
+import Spring.SpringCRUD.discount.RateDiscountPolicy;
+import Spring.SpringCRUD.member.MemberRepository;
 import Spring.SpringCRUD.member.MemberService;
 import Spring.SpringCRUD.member.MemberServiceImpl;
 import Spring.SpringCRUD.member.MemoryMemberRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public class AppConfig { //환경설정은 모두 여기서 지정한다
+@Configuration //환경설정이라는 뜻
+public class AppConfig {
 
-    //memberservice 구현
+
+    //@Bean memberService -> new MemomryMemberRepository()
+    //@Bean orderService -> new MemomryMemberRepository()
+    //2번 호출 된다.
+
+    @Bean //컨테이너에 저장됨
     public MemberService memberService() {
-        return new MemberServiceImpl(new MemoryMemberRepository()); //생성자 주입(new로 생성된 생성자를 통해서 주입)
-                                                                    // memberService로 호출이 들어오면 MemberServiceImpl의 MemoryMemberRepository객체에 할당이 된다.
+        System.out.println("AppConfig.memberService");
+        return new MemberServiceImpl(memberRepository()); //반환된 이것을 스프링 빈에 등록
 
     }
+    @Bean
+    public MemberRepository memberRepository() {
+        System.out.println("AppConfig.memberRepository");
+        return new MemoryMemberRepository();
+    }
 
-    //orderservice 구현
+    @Bean
     public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy()); //여기는 memberRepository와 discountPolicy 2개의 field가 존재
+        System.out.println("AppConfig.orderService");
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+
+
+    @Bean
+    public DiscountPolicy discountPolicy(){
+        System.out.println("AppConfig.discountPolicy");
+        return new RateDiscountPolicy();
     }
 
 

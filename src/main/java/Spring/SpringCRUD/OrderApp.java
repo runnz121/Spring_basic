@@ -7,15 +7,22 @@ import Spring.SpringCRUD.member.Grade;
 import Spring.SpringCRUD.member.Member;
 import Spring.SpringCRUD.member.MemberService;
 import Spring.SpringCRUD.member.MemberServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderApp {
 
     public static void main(String[] args) {
 
-        //AppConfig를 선언하여 해당 객체를 주입
-        AppConfig appConfig= new AppConfig();
-        MemberService memberService = appConfig.memberService();
-        OrderService orderService = appConfig.orderService();
+
+//        AppConfig appConfig= new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        OrderService orderService = appConfig.orderService();
+
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class); //Annotation기반으로 스프링컨테이너를 만들어라( XML기반도 있음)
+
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
 
         Long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
