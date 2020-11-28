@@ -1,8 +1,14 @@
 package Spring.SpringCRUD.member;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+
+@Component
 public class MemoryMemberRepository implements MemberRepository //인터페이스 구현을 위한 구현체 //데이터베이스가 아직 정해지지 않은 떄라서 임시로 생성
 
 {

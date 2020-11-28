@@ -6,7 +6,11 @@ import Spring.SpringCRUD.discount.RateDiscountPolicy;
 import Spring.SpringCRUD.member.Member;
 import Spring.SpringCRUD.member.MemberRepository;
 import Spring.SpringCRUD.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class OrderServiceImpl implements OrderService {
 
 
@@ -21,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
     //인터페이스에만 의존하는 코드로 변경 그러나 이렇게 되면 discountpolicy 에 아무런 값이 할당되어있지 않아 nullpointexception error 발생 >>page 27
     private final DiscountPolicy discountPolicy; //인터페이스만 의존
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) { //final로 선언이 되었기 때문에(위의 2코드) 생성자가 필요하다.
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;

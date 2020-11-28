@@ -1,10 +1,18 @@
 package Spring.SpringCRUD.member;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService { //memberservice 구현체
 
     //가입 조회를 위한 MemberRepository interface 선언 = 해당 인터페이스의 구현객체를 선언(실제 조회를 위해)
     private final MemberRepository memberRepository; //인터페이스만 존재
 
+
+                          //생성자에 이것을 작성해주면 >>자동적으로 의존관계를 주입해준다.(Component 는 자동으로 빈 등록을 해주기 때문에 의존관계를 설정할 수 없다 그래서 Autowired를 생성자에 작성하여 이를 해결)
+    @Autowired            //ac.getBean(MemberRepository.class)가 Autowired로 인해 들어간다고 보면됨
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
