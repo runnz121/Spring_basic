@@ -1,33 +1,33 @@
 package Spring.SpringCRUD.Order;
 
+import Spring.SpringCRUD.annotation.MainDiscountPolicy;
 import Spring.SpringCRUD.discount.DiscountPolicy;
 import Spring.SpringCRUD.discount.FixDiscountPolicy;
 import Spring.SpringCRUD.discount.RateDiscountPolicy;
 import Spring.SpringCRUD.member.Member;
 import Spring.SpringCRUD.member.MemberRepository;
 import Spring.SpringCRUD.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
 @Component
+//@RequiredArgsConstructor //생성자를 그대로 만들어준다.
 public class OrderServiceImpl implements OrderService {
-
-
-
 
 
     //이 코드로 인해 추상클래스와 구현체클래스 모두 의존하고 있음을 알 수 있다.  >>DIP 위반반
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy(); //인터페이스dis에서 Fix 구현체를 불러와서 이를 discountpolicy 에 넣음
     //private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); //새로운 RateDiscountpolicy 적용
 
-    private final MemberRepository memberRepository; //인터페이스만 의존
+    private final MemberRepository memberRepository; //인터페이스만 의존,
     //인터페이스에만 의존하는 코드로 변경 그러나 이렇게 되면 discountpolicy 에 아무런 값이 할당되어있지 않아 nullpointexception error 발생 >>page 27
     private final DiscountPolicy discountPolicy; //인터페이스만 의존
 
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) { //final로 선언이 되었기 때문에(위의 2코드) 생성자가 필요하다.
-        this.memberRepository = memberRepository;
+    //생성자 주입 >>불변>>@RequiredArgsConstructor가 이 것을 대신 만들어 준다.
+   public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) { //final로 선언이 되었기 때문에(위의 2코드) 생성자가 필요하다.
+        this.memberRepository = memberRepository;               //생성한 annotation을 설정
         this.discountPolicy = discountPolicy;
     }
 
